@@ -29,12 +29,21 @@ type ArrayList[T cmp.Ordered] struct {
 func NewArrayList[T cmp.Ordered](values []T) ArrayList[T] {
 	return ArrayList[T]{arraylist.New(values), slices.Max(values), slices.Min(values), len(values)}
 }
+
 func (list ArrayList[T]) Less(i, j int) bool {
 	return list.Value(i) < list.Value(j)
 }
 
+func (list ArrayList[T]) LessEq(i, j int) bool {
+	return list.Value(i) <= list.Value(j)
+}
+
 func (list ArrayList[T]) Greater(i, j int) bool {
 	return list.Value(i) > list.Value(j)
+}
+
+func (list ArrayList[T]) GreaterEq(i, j int) bool {
+	return list.Value(i) >= list.Value(j)
 }
 
 func (list ArrayList[T]) Equal(i, j int) bool {
@@ -58,11 +67,11 @@ func (list ArrayList[T]) Sort() {
 	// slices.Sort(list.List())
 }
 
-func (list ArrayList[T]) SortFunc(sortFunc func(ArrayList[T]) ArrayList[T]) {
+func (list ArrayList[T]) SortFunc(sortFunc func(ArrayList[T])) {
 	if sortFunc == nil {
 		list.Sort()
 	} else {
-		_ = sortFunc(list)
+		sortFunc(list)
 	}
 }
 

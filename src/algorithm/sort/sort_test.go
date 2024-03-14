@@ -87,11 +87,11 @@ func BenchmarkMergeSort(b *testing.B) {
 }
 
 func TestHeapSort(t *testing.T) {
-	// testSortFunc(t, sort.HeapSort)
+	testSortFunc(t, sort.HeapSort)
 }
 
 func BenchmarkHeapSort(b *testing.B) {
-	// benchmarkSortFunc(b, sort.HeapSort)
+	benchmarkSortFunc(b, sort.HeapSort)
 }
 
 func TestBucketSort(t *testing.T) {

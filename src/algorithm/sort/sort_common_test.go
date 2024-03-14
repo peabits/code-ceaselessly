@@ -7,13 +7,13 @@ import (
 	"github.com/peabits/code-ceaselessly/algorithm/sort"
 )
 
-func testSortFunc(t *testing.T, sortFunc func(list sort.ArrayList[int]) sort.ArrayList[int]) {
+func testSortFunc(t *testing.T, sortFunc func(list sort.ArrayList[int])) {
 	var N = (rand.Intn(10) + 1) * 100
 	sequence := sort.RandomSequenceRepeatedFrom0[int](N)
 	listSource := sort.NewArrayList(sequence)
-	listSorting := listSource.Copy()
+	listSorted := listSource.Copy()
 	listSource.Sort()
-	listSorted := sortFunc(listSorting)
+	listSorted.SortFunc(sortFunc)
 	if listSorted.EqualTo(listSource) {
 		t.Logf("\nSource: %v\nSorted: %v\nResult: Success\n", listSource, listSorted)
 	} else {
@@ -21,11 +21,11 @@ func testSortFunc(t *testing.T, sortFunc func(list sort.ArrayList[int]) sort.Arr
 	}
 }
 
-func benchmarkSortFunc(b *testing.B, sortFunc func(list sort.ArrayList[int]) sort.ArrayList[int]) {
+func benchmarkSortFunc(b *testing.B, sortFunc func(list sort.ArrayList[int])) {
 	var N = 10000
 	sequence := sort.RandomSequenceRepeatedFrom0[int](N)
 	list := sort.NewArrayList(sequence)
 	for i := 0; i < b.N; i++ {
-		_ = sortFunc(list)
+		sortFunc(list)
 	}
 }

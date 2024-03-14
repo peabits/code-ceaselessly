@@ -26,9 +26,8 @@ import (
 	list = BuiltinSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func BuiltinSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func BuiltinSort[T cmp.Ordered](list ArrayList[T]) {
 	list.Sort()
-	return list
 }
 
 /*
@@ -53,7 +52,7 @@ func BuiltinSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = SelectionSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func SelectionSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func SelectionSort[T cmp.Ordered](list ArrayList[T]) {
 	for i := 0; i < list.length-1; i++ {
 		minIndex := i
 		for j := i + 1; j < list.length; j++ {
@@ -64,7 +63,6 @@ func SelectionSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 		list.Swap(i, minIndex)
 
 	}
-	return list
 }
 
 /*
@@ -89,7 +87,7 @@ func SelectionSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = BubbleSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func BubbleSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func BubbleSort[T cmp.Ordered](list ArrayList[T]) {
 	for count, ordered, i := list.length-1, false, 0; !ordered && count > 0; count-- {
 		for i, ordered = 0, true; i < count; i++ {
 			if list.Greater(i, i+1) {
@@ -98,7 +96,6 @@ func BubbleSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 			}
 		}
 	}
-	return list
 }
 
 /*
@@ -123,7 +120,7 @@ func BubbleSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = InsertionSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func InsertionSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func InsertionSort[T cmp.Ordered](list ArrayList[T]) {
 	for i, j := 1, 0; i < list.length; i++ {
 		minValue := list.Value(i)
 		for j = i; j > 0 && list.Value(j-1) > minValue; j-- {
@@ -131,7 +128,6 @@ func InsertionSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 		}
 		list.Update(j, minValue)
 	}
-	return list
 }
 
 /*
@@ -158,13 +154,12 @@ func InsertionSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = insertionSortInterval(list, 1, 4)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func insertionSortInterval[T cmp.Ordered](list ArrayList[T], start, end int) ArrayList[T] {
+func insertionSortInterval[T cmp.Ordered](list ArrayList[T], start, end int) {
 	for i, j := start+1, 0; i < end; i++ {
 		for j = i; j > 0 && list.Less(j, j-1); j-- {
 			list.Swap(j, j-1)
 		}
 	}
-	return list
 }
 
 /*
@@ -189,7 +184,7 @@ func insertionSortInterval[T cmp.Ordered](list ArrayList[T], start, end int) Arr
 	list = CountingSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func CountingSort[T Integer](list ArrayList[T]) ArrayList[T] {
+func CountingSort[T Integer](list ArrayList[T]) {
 	maxValue, minValue := list.maxValue, list.minValue
 	backup := list.Copy()
 	buckets := make([]int, maxValue-minValue+1)
@@ -203,7 +198,6 @@ func CountingSort[T Integer](list ArrayList[T]) ArrayList[T] {
 		buckets[backup.Value(i)-minValue]--
 		list.Update(buckets[backup.Value(i)-minValue], backup.Value(i))
 	}
-	return list
 }
 
 /*
@@ -228,7 +222,7 @@ func CountingSort[T Integer](list ArrayList[T]) ArrayList[T] {
 	list = CountingSortShallow(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func CountingSortShallow[T Integer](list ArrayList[T]) ArrayList[T] {
+func CountingSortShallow[T Integer](list ArrayList[T]) {
 	minValue, maxValue := list.minValue, list.maxValue
 	buckets := make([]T, maxValue-minValue+1)
 	for i := 0; i < list.length; i++ {
@@ -240,7 +234,6 @@ func CountingSortShallow[T Integer](list ArrayList[T]) ArrayList[T] {
 			k++
 		}
 	}
-	return list
 }
 
 /*
@@ -265,7 +258,7 @@ func CountingSortShallow[T Integer](list ArrayList[T]) ArrayList[T] {
 	list = RadixSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func RadixSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func RadixSort[T cmp.Ordered](list ArrayList[T]) {
 	panic("Pending implementation")
 }
 
@@ -291,9 +284,8 @@ func RadixSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = QuickSortPlain(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func QuickSortPlain[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func QuickSortPlain[T cmp.Ordered](list ArrayList[T]) {
 	quickSortPlain(list, 0, list.length)
-	return list
 }
 
 func quickSortPlain[T cmp.Ordered](list ArrayList[T], start, end int) {
@@ -339,9 +331,8 @@ func quickSortPlain[T cmp.Ordered](list ArrayList[T], start, end int) {
 	list = QuickSortPlain(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func QuickSortOptimized[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
-	quickSortOptimized[T](list, 0, list.length)
-	return list
+func QuickSortOptimized[T cmp.Ordered](list ArrayList[T]) {
+	quickSortOptimized(list, 0, list.length)
 }
 
 func quickSortOptimized[T cmp.Ordered](list ArrayList[T], start, end int) {
@@ -390,9 +381,8 @@ func quickSortOptimized[T cmp.Ordered](list ArrayList[T], start, end int) {
 	list = MergeSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func MergeSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func MergeSort[T cmp.Ordered](list ArrayList[T]) {
 	mergeSort(list, 0, list.length)
-	return list
 }
 
 func mergeSort[T cmp.Ordered](list ArrayList[T], start, end int) {
@@ -446,8 +436,26 @@ func mergeSort[T cmp.Ordered](list ArrayList[T], start, end int) {
 	list = HeapSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func HeapSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
-	panic("Pending implementation")
+func HeapSort[T cmp.Ordered](list ArrayList[T]) {
+	for i := (list.length - 2) >> 1; i > -1; i-- {
+		maxHeapify(list, i, list.length)
+	}
+	for i := list.length - 1; i > 0; i-- {
+		list.Swap(0, i)
+		maxHeapify(list, 0, i)
+	}
+}
+
+func maxHeapify[T cmp.Ordered](list ArrayList[T], start, end int) {
+	for parent, child := start, start<<1+1; child < end; parent, child = child, child<<1+1 {
+		if child+1 < end && list.Less(child, child+1) {
+			child++
+		}
+		if list.GreaterEq(parent, child) {
+			return
+		}
+		list.Swap(parent, child)
+	}
 }
 
 /*
@@ -472,7 +480,7 @@ func HeapSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = BucketSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func BucketSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func BucketSort[T cmp.Ordered](list ArrayList[T]) {
 	panic("Pending implementation")
 }
 
@@ -498,7 +506,7 @@ func BucketSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = ShellSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func ShellSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func ShellSort[T cmp.Ordered](list ArrayList[T]) {
 	panic("Pending implementation")
 }
 
@@ -524,7 +532,7 @@ func ShellSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = TournamentSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func TournamentSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func TournamentSort[T cmp.Ordered](list ArrayList[T]) {
 	panic("Pending implementation")
 }
 
@@ -550,6 +558,6 @@ func TournamentSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
 	list = TimSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func TimSort[T cmp.Ordered](list ArrayList[T]) ArrayList[T] {
+func TimSort[T cmp.Ordered](list ArrayList[T]) {
 	panic("Pending implementation")
 }
