@@ -1,7 +1,6 @@
 package sort_test
 
 import (
-	"log"
 	"math/rand"
 	"testing"
 
@@ -11,7 +10,6 @@ import (
 func testSortFunc(t *testing.T, sortFunc func(list sort.ArrayList[int]) sort.ArrayList[int]) {
 	var N = (rand.Intn(10) + 1) * 100
 	sequence := sort.RandomSequenceRepeatedFrom0[int](N)
-	log.Println(sequence)
 	listSource := sort.NewArrayList(sequence)
 	listSorting := listSource.Copy()
 	listSource.Sort()

@@ -79,11 +79,11 @@ func BenchmarkQuickSortOptimized(b *testing.B) {
 }
 
 func TestMergeSort(t *testing.T) {
-	// testSortFunc(t, sort.MergeSort)
+	testSortFunc(t, sort.MergeSort)
 }
 
 func BenchmarkMergeSort(b *testing.B) {
-	// benchmarkSortFunc(b, sort.MergeSort)
+	benchmarkSortFunc(b, sort.MergeSort)
 }
 
 func TestHeapSort(t *testing.T) {

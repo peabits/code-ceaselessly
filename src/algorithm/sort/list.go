@@ -58,6 +58,14 @@ func (list ArrayList[T]) Sort() {
 	// slices.Sort(list.List())
 }
 
+func (list ArrayList[T]) SortFunc(sortFunc func(ArrayList[T]) ArrayList[T]) {
+	if sortFunc == nil {
+		list.Sort()
+	} else {
+		_ = sortFunc(list)
+	}
+}
+
 func (list ArrayList[T]) Copy() ArrayList[T] {
 	return ArrayList[T]{list.ArrayList.Copy(), list.maxValue, list.minValue, list.length}
 }
