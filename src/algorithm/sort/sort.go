@@ -392,7 +392,6 @@ func quickSortOptimized[T cmp.Ordered](list ArrayList[T], start, end int) {
 */
 func MergeSort[T cmp.Ordered](list ArrayList[T], start, end int) {
 	// panic("Pending implementation")
-
 }
 
 /*
@@ -500,7 +499,7 @@ func TournamentSort[T cmp.Ordered](list ArrayList[T], start, end int) {
 }
 
 /*
-按照由小到大的顺序对一个数组的元素进行排序（使用 tim 排序算法）。
+按照由小到大的顺序对一个数组的元素进行排序（使用 Tim 排序算法）。
 
 类型：
 
