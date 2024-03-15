@@ -2,6 +2,7 @@ package sort
 
 import (
 	"cmp"
+	"sort"
 )
 
 /*
@@ -53,15 +54,23 @@ func BuiltinSort[T cmp.Ordered](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func SelectionSort[T cmp.Ordered](list ArrayList[T]) {
-	for i := 0; i < list.length-1; i++ {
-		minIndex := i
-		for j := i + 1; j < list.length; j++ {
-			if list.Less(j, minIndex) {
-				minIndex = j
+	selectionSort[T](list)
+}
+
+func selectionSort[T cmp.Ordered](list sort.Interface) {
+	selectionSortAb[T](list, 0, list.Len())
+}
+
+// 左闭右开区间 [a, b)
+func selectionSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	for i := a; i < b-1; i++ {
+		k := i
+		for j := i + 1; j < b; j++ {
+			if list.Less(j, k) {
+				k = j
 			}
 		}
-		list.Swap(i, minIndex)
-
+		list.Swap(i, k)
 	}
 }
 
@@ -88,11 +97,21 @@ func SelectionSort[T cmp.Ordered](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func BubbleSort[T cmp.Ordered](list ArrayList[T]) {
-	for count, ordered, i := list.length-1, false, 0; !ordered && count > 0; count-- {
-		for i, ordered = 0, true; i < count; i++ {
-			if list.Greater(i, i+1) {
-				ordered = false
-				list.Swap(i, i+1)
+	bubbleSort[T](list)
+}
+
+func bubbleSort[T cmp.Ordered](list sort.Interface) {
+	bubbleSortAb[T](list, 0, list.Len())
+}
+
+// 左闭右开区间 [a, b)
+func bubbleSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	for i, c := b-1, false; !c && i > a; i-- {
+		c = true
+		for j := a; j < i; j++ {
+			if list.Less(j+1, j) {
+				c = false
+				list.Swap(j, j+1)
 			}
 		}
 	}
@@ -121,41 +140,20 @@ func BubbleSort[T cmp.Ordered](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func InsertionSort[T cmp.Ordered](list ArrayList[T]) {
-	for i, j := 1, 0; i < list.length; i++ {
-		minValue := list.Value(i)
-		for j = i; j > 0 && list.Value(j-1) > minValue; j-- {
-			list.Update(j, list.Value(j-1))
-		}
-		list.Update(j, minValue)
-	}
+	insertionSort[T](list)
 }
 
-/*
-按照由小到大的顺序对一个数组区间 [start, end) 内的元素进行排序（使用插入排序算法）。
+func InsertionSort1[T cmp.Ordered](list LinkedList[T]) {
+	insertionSort[T](list)
+}
 
-类型：
+func insertionSort[T cmp.Ordered](list sort.Interface) {
+	insertionSortAb[T](list, 0, list.Len())
+}
 
-	func (ArrayList[T], int, int) ArrayList[T]
-
-参数：
-
-  - list: 等待排序的数组
-  - start: 开始索引（包括）
-  - end: 结束索引（不包括）
-
-返回值:
-
-  - 完成排序的数组
-
-例子:
-
-	list := NewArrayList([]int{1, 4, 2, 3, 5})
-	fmt.Println(list) // [1 4 2 3 5]
-	list = insertionSortInterval(list, 1, 4)
-	fmt.Println(list) // [1 2 3 4 5]
-*/
-func insertionSortInterval[T cmp.Ordered](list ArrayList[T], start, end int) {
-	for i, j := start+1, 0; i < end; i++ {
+// 左闭右开区间 [a, b)
+func insertionSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	for i, j := a+1, 0; i < b; i++ {
 		for j = i; j > 0 && list.Less(j, j-1); j-- {
 			list.Swap(j, j-1)
 		}
@@ -185,18 +183,18 @@ func insertionSortInterval[T cmp.Ordered](list ArrayList[T], start, end int) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func CountingSort[T Integer](list ArrayList[T]) {
-	maxValue, minValue := list.maxValue, list.minValue
+	mi, ma := list.Min(), list.Max()
 	backup := list.Copy()
-	buckets := make([]int, maxValue-minValue+1)
-	for i := 0; i < backup.length; i++ {
-		buckets[backup.Value(i)-minValue]++
+	buckets := make([]int, ma-mi+1)
+	for i := 0; i < backup.Len(); i++ {
+		buckets[backup.Value(i)-mi]++
 	}
 	for i := 0; i < len(buckets)-1; i++ {
 		buckets[i+1] += buckets[i]
 	}
-	for i := backup.length - 1; i >= 0; i-- {
-		buckets[backup.Value(i)-minValue]--
-		list.Update(buckets[backup.Value(i)-minValue], backup.Value(i))
+	for i := backup.Len() - 1; i >= 0; i-- {
+		buckets[backup.Value(i)-mi]--
+		list.Update(buckets[backup.Value(i)-mi], backup.Value(i))
 	}
 }
 
@@ -223,14 +221,14 @@ func CountingSort[T Integer](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func CountingSortShallow[T Integer](list ArrayList[T]) {
-	minValue, maxValue := list.minValue, list.maxValue
-	buckets := make([]T, maxValue-minValue+1)
-	for i := 0; i < list.length; i++ {
-		buckets[list.Value(i)-minValue]++
+	mi, ma := list.Min(), list.Max()
+	buckets := make([]T, ma-mi+1)
+	for i := 0; i < list.Len(); i++ {
+		buckets[list.Value(i)-mi]++
 	}
 	for i, k := 0, 0; i < len(buckets); i++ {
 		for j := buckets[i]; j > 0; j-- {
-			list.Update(k, T(i)+minValue)
+			list.Update(k, T(i)+mi)
 			k++
 		}
 	}
@@ -285,28 +283,32 @@ func RadixSort[T cmp.Ordered](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func QuickSortPlain[T cmp.Ordered](list ArrayList[T]) {
-	quickSortPlain(list, 0, list.length)
+	quickSortPlain[T](list)
 }
 
-func quickSortPlain[T cmp.Ordered](list ArrayList[T], start, end int) {
-	if end-start <= 1 {
+func quickSortPlain[T cmp.Ordered](list sort.Interface) {
+	quickSortPlainAb[T](list, 0, list.Len())
+}
+
+// 左闭右开区间 [a, b)
+func quickSortPlainAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	if b-a <= 1 {
 		return
 	}
-	pivotIndex := start + random.Intn(end-start) // random index
-	pivot := list.Value(pivotIndex)
-	list.Swap(pivotIndex, start)
-	leftIndex, rightIndex := start+1, end-1
-	for leftIndex <= rightIndex {
-		if list.Value(leftIndex) <= pivot {
-			leftIndex++
+	pi := a + random.Intn(b-a) // pivot => random index
+	list.Swap(pi, a)
+	l, r := a+1, b-1
+	for l <= r {
+		if list.Less(a, l) {
+			list.Swap(l, r)
+			r--
 		} else {
-			list.Swap(leftIndex, rightIndex)
-			rightIndex--
+			l++
 		}
 	}
-	list.Swap(start, leftIndex-1)
-	quickSortPlain(list, start, leftIndex-1)
-	quickSortPlain(list, rightIndex+1, end)
+	list.Swap(a, l-1)
+	quickSortPlainAb[T](list, a, l-1)
+	quickSortPlainAb[T](list, r+1, b)
 }
 
 /*
@@ -332,29 +334,48 @@ func quickSortPlain[T cmp.Ordered](list ArrayList[T], start, end int) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func QuickSortOptimized[T cmp.Ordered](list ArrayList[T]) {
-	quickSortOptimized(list, 0, list.length)
+	quickSortOptimized[T](list)
 }
 
-func quickSortOptimized[T cmp.Ordered](list ArrayList[T], start, end int) {
-	if end-start <= 3 {
-		insertionSortInterval(list, start, end)
+func quickSortOptimized[T cmp.Ordered](list sort.Interface) {
+	quickSortOptimizedAb[T](list, 0, list.Len())
+}
+
+// 左闭右开区间 [a, b)
+func quickSortOptimizedAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	if b-a <= 3 {
+		insertionSortAb[T](list, a, b)
 	} else {
-		pivot := max(list.Value(start), list.Value(end-1), list.Value(start+(end-start)>>1))
-		midIndex, leftIndex, rightIndex := start, start, end-1
-		for midIndex <= rightIndex {
-			if v := list.Value(midIndex); v < pivot {
-				list.Swap(midIndex, leftIndex)
-				midIndex++
-				leftIndex++
-			} else if v > pivot {
-				list.Swap(midIndex, rightIndex)
-				rightIndex--
-			} else {
-				midIndex++
+		pi := a + (b-a)>>1
+		if list.Less(a, b-1) {
+			if list.Less(pi, a) {
+				pi = a
+			} else if list.Less(b-1, pi) {
+				pi = b - 1
+			}
+		} else {
+			if list.Less(pi, b-1) {
+				pi = b - 1
+			} else if list.Less(a, pi) {
+				pi = a
 			}
 		}
-		quickSortOptimized(list, start, leftIndex)
-		quickSortOptimized(list, rightIndex+1, end)
+		list.Swap(a, pi)
+		m, l, r := a+1, a, b-1
+		for m <= r {
+			if list.Less(m, m-1) {
+				list.Swap(m, l)
+				m++
+				l++
+			} else if list.Less(m-1, m) {
+				list.Swap(m, r)
+				r--
+			} else {
+				m++
+			}
+		}
+		quickSortOptimizedAb[T](list, a, l)
+		quickSortOptimizedAb[T](list, r+1, b)
 	}
 
 }
@@ -382,20 +403,21 @@ func quickSortOptimized[T cmp.Ordered](list ArrayList[T], start, end int) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func MergeSort[T cmp.Ordered](list ArrayList[T]) {
-	mergeSort(list, 0, list.length)
+	mergeSort(list, 0, list.Len())
 }
 
-func mergeSort[T cmp.Ordered](list ArrayList[T], start, end int) {
-	if end-start <= 1 {
+// 左闭右开区间 [a, b)
+func mergeSort[T cmp.Ordered](list ArrayList[T], a, b int) {
+	if b-a <= 1 {
 		return
 	}
-	mid := start + (end-start)>>1
-	mergeSort(list, start, mid)
-	mergeSort(list, mid, end)
-	temp := make([]T, end-start)
-	copy(temp, list.Interval(start, end))
-	i, j, k := 0, mid-start, start
-	for ; i < mid-start && j < end-start; k++ {
+	m := a + (b-a)>>1
+	mergeSort(list, a, m)
+	mergeSort(list, m, b)
+	temp := make([]T, b-a)
+	copy(temp, list.Interval(a, b))
+	i, j, k := 0, m-a, a
+	for ; i < m-a && j < b-a; k++ {
 		if temp[i] <= temp[j] {
 			list.Update(k, temp[i])
 			i++
@@ -404,11 +426,11 @@ func mergeSort[T cmp.Ordered](list ArrayList[T], start, end int) {
 			j++
 		}
 	}
-	for ; i < mid-start; k++ {
+	for ; i < m-a; k++ {
 		list.Update(k, temp[i])
 		i++
 	}
-	for ; j < end-start; k++ {
+	for ; j < b-a; k++ {
 		list.Update(k, temp[j])
 		j++
 	}
@@ -437,24 +459,34 @@ func mergeSort[T cmp.Ordered](list ArrayList[T], start, end int) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func HeapSort[T cmp.Ordered](list ArrayList[T]) {
-	for i := (list.length - 2) >> 1; i > -1; i-- {
-		maxHeapify(list, i, list.length)
+	heapSort[T](list)
+}
+
+func heapSort[T cmp.Ordered](list sort.Interface) {
+	heapSortAb[T](list, 0, list.Len())
+}
+
+// 左闭右开区间 [a, b)
+func heapSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	for i := ((b - a) - 2) >> 1; i >= 0; i-- {
+		maxHeapify[T](list, a+i, b)
 	}
-	for i := list.length - 1; i > 0; i-- {
+	for i := b - a - 1; i >= 0; i-- {
 		list.Swap(0, i)
-		maxHeapify(list, 0, i)
+		maxHeapify[T](list, 0, i)
 	}
 }
 
-func maxHeapify[T cmp.Ordered](list ArrayList[T], start, end int) {
-	for parent, child := start, start<<1+1; child < end; parent, child = child, child<<1+1 {
-		if child+1 < end && list.Less(child, child+1) {
-			child++
+// 左闭右开区间 [a, b)
+func maxHeapify[T cmp.Ordered](list sort.Interface, a, b int) {
+	for m, n := a, a<<1+1; n < b; m, n = n, n<<1+1 {
+		if n+1 < b && list.Less(n, n+1) {
+			n++
 		}
-		if list.GreaterEq(parent, child) {
+		if list.Less(n, m) {
 			return
 		}
-		list.Swap(parent, child)
+		list.Swap(m, n)
 	}
 }
 
@@ -480,8 +512,31 @@ func maxHeapify[T cmp.Ordered](list ArrayList[T], start, end int) {
 	list = BucketSort(list)
 	fmt.Println(list) // [1 2 3 4 5]
 */
-func BucketSort[T cmp.Ordered](list ArrayList[T]) {
-	panic("Pending implementation")
+func BucketSort[T Number](alist ArrayList[T]) {
+	mi, ma := alist.Min()-1, alist.Max()+1
+	size := 3
+	N := int(ma-mi+1)/size + 1
+	buckets := make([][]T, N)
+	for i := range buckets {
+		buckets[i] = make([]T, 0)
+	}
+	for i := 0; i < alist.Len(); i++ {
+		v := alist.Value(i)
+		bi := int(v-mi+1) / size
+		buckets[bi] = append(buckets[bi], v)
+	}
+	i := 0
+	for _, list := range buckets {
+		for i := 1; i < len(list); i++ {
+			for j := i; j > 0 && list[j] < list[j-1]; j-- {
+				list[j], list[j-1] = list[j-1], list[j]
+			}
+		}
+		for _, val := range list {
+			alist.Update(i, val)
+			i++
+		}
+	}
 }
 
 /*
@@ -507,7 +562,26 @@ func BucketSort[T cmp.Ordered](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func ShellSort[T cmp.Ordered](list ArrayList[T]) {
-	panic("Pending implementation")
+	shellSort[T](list)
+}
+
+func shellSort[T cmp.Ordered](list sort.Interface) {
+	shellSortAb[T](list, 0, list.Len())
+}
+
+func shellSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+	gap := 1
+	for g := gap<<1 + 1; g < b-a; g = g<<1 + 1 {
+		gap = g
+
+	}
+	for ; gap > 0; gap = (gap - 1) >> 1 {
+		for i := a + gap; i < b; i++ {
+			for j := i; j >= a+gap && list.Less(j, j-gap); j -= gap {
+				list.Swap(j, j-gap)
+			}
+		}
+	}
 }
 
 /*
@@ -559,5 +633,9 @@ func TournamentSort[T cmp.Ordered](list ArrayList[T]) {
 	fmt.Println(list) // [1 2 3 4 5]
 */
 func TimSort[T cmp.Ordered](list ArrayList[T]) {
+	panic("Pending implementation")
+}
+
+func PdqSort[T cmp.Ordered](list ArrayList[T]) {
 	panic("Pending implementation")
 }
