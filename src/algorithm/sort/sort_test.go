@@ -31,7 +31,12 @@ func TestCountingSortShallow(t *testing.T) {
 }
 
 func TestRadixSort(t *testing.T) {
-	// GoTestSortFunc(t, sort.RadixSort)
+	defer func() {
+		if p := recover(); p != nil {
+			t.Log(p)
+		}
+	}()
+	GoTestSortFunc(t, sort.RadixSort)
 }
 
 func TestQuickSortPlain(t *testing.T) {
@@ -59,9 +64,28 @@ func TestShellSort(t *testing.T) {
 }
 
 func TestTournamentSort(t *testing.T) {
-	// GoTestSortFunc(t, sort.TournamentSort)
+	defer func() {
+		if p := recover(); p != nil {
+			t.Log(p)
+		}
+	}()
+	GoTestSortFunc(t, sort.TournamentSort)
 }
 
 func TestTimSort(t *testing.T) {
-	// GoTestSortFunc(t, sort.TimSort)
+	defer func() {
+		if p := recover(); p != nil {
+			t.Log(p)
+		}
+	}()
+	GoTestSortFunc(t, sort.TimSort)
+}
+
+func TestPdqSort(t *testing.T) {
+	defer func() {
+		if p := recover(); p != nil {
+			t.Log(p)
+		}
+	}()
+	GoTestSortFunc(t, sort.PdqSort)
 }

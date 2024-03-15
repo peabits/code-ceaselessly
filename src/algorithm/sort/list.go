@@ -9,17 +9,6 @@ import (
 	"github.com/peabits/code-ceaselessly/list/linkedlist"
 )
 
-type List[T cmp.Ordered] interface {
-	Len() int
-	At(int) T
-	Update(int, T) bool
-	Insert(int, T) bool
-	Delete(int) (T, error)
-	Sort()
-	Push(T)
-	Pop()
-}
-
 type ArrayList[T cmp.Ordered] struct {
 	values *arraylist.ArrayList[T]
 }

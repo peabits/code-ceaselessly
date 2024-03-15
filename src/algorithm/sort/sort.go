@@ -143,10 +143,6 @@ func InsertionSort[T cmp.Ordered](list ArrayList[T]) {
 	insertionSort[T](list)
 }
 
-func InsertionSort1[T cmp.Ordered](list LinkedList[T]) {
-	insertionSort[T](list)
-}
-
 func insertionSort[T cmp.Ordered](list sort.Interface) {
 	insertionSortAb[T](list, 0, list.Len())
 }

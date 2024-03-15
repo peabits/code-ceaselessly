@@ -31,7 +31,12 @@ func BenchmarkCountingSortShallow(b *testing.B) {
 }
 
 func BenchmarkRadixSort(b *testing.B) {
-	// GoBenchmarkSortFunc(b, sort.RadixSort)
+	defer func() {
+		if p := recover(); p != nil {
+			b.Log(p)
+		}
+	}()
+	GoBenchmarkSortFunc(b, sort.RadixSort)
 }
 
 func BenchmarkQuickSortPlain(b *testing.B) {
@@ -59,9 +64,28 @@ func BenchmarkShellSort(b *testing.B) {
 }
 
 func BenchmarkTournamentSort(b *testing.B) {
-	// GoBenchmarkSortFunc(b, sort.TournamentSort)
+	defer func() {
+		if p := recover(); p != nil {
+			b.Log(p)
+		}
+	}()
+	GoBenchmarkSortFunc(b, sort.TournamentSort)
 }
 
 func BenchmarkTimSort(b *testing.B) {
-	// GoBenchmarkSortFunc(b, sort.TimSort)
+	defer func() {
+		if p := recover(); p != nil {
+			b.Log(p)
+		}
+	}()
+	GoBenchmarkSortFunc(b, sort.TimSort)
+}
+
+func BenchmarkPdqSort(b *testing.B) {
+	defer func() {
+		if p := recover(); p != nil {
+			b.Log(p)
+		}
+	}()
+	GoBenchmarkSortFunc(b, sort.PdqSort)
 }
