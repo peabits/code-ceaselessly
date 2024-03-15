@@ -7,11 +7,10 @@ import (
 
 var random = rand.New(rand.NewSource(time.Now().Unix()))
 
-func shuffle[T any](arr []T) []T {
+func shuffle[T any](arr []T) {
 	random.Shuffle(len(arr), func(i, j int) {
 		arr[i], arr[j] = arr[j], arr[i]
 	})
-	return arr
 }
 
 func Sequence[T Integer](start, end int) []T {
@@ -24,7 +23,7 @@ func Sequence[T Integer](start, end int) []T {
 
 func RandomSequence[T Integer](start, end int) []T {
 	sequence := Sequence[T](start, end)
-	_ = shuffle(sequence)
+	shuffle(sequence)
 	return sequence
 }
 
@@ -35,7 +34,7 @@ func RandomSequenceFrom0[T Integer](end int) []T {
 func randomN[T Integer](start, end int) func() T {
 	sequence := Sequence[T](start, end)
 	return func() T {
-		return sequence[start+random.Intn(end-start)]
+		return sequence[random.Intn(end-start)]
 	}
 }
 

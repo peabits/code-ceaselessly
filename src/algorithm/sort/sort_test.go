@@ -38,33 +38,24 @@ func TestBuiltinSort(t *testing.T) {
 	GoTestSortFunc(t, sort.BuiltinSort)
 }
 
+func TestBubbleSort(t *testing.T) {
+	GoTestSortFunc(t, sort.BubbleSort)
+}
+
 func TestSelectionSort(t *testing.T) {
 	GoTestSortFunc(t, sort.SelectionSort)
 }
 
-func TestBubbleSort(t *testing.T) {
-	GoTestSortFunc(t, sort.BubbleSort)
+func TestHeapSort(t *testing.T) {
+	GoTestSortFunc(t, sort.HeapSort)
 }
 
 func TestInsertionSort(t *testing.T) {
 	GoTestSortFunc(t, sort.InsertionSort)
 }
 
-func TestCountingSort(t *testing.T) {
-	GoTestSortFunc(t, sort.CountingSort)
-}
-
-func TestCountingSortShallow(t *testing.T) {
-	GoTestSortFunc(t, sort.CountingSortShallow)
-}
-
-func TestRadixSort(t *testing.T) {
-	defer func() {
-		if p := recover(); p != nil {
-			t.Log(p)
-		}
-	}()
-	GoTestSortFunc(t, sort.RadixSort)
+func TestShellSort(t *testing.T) {
+	GoTestSortFunc(t, sort.ShellSort)
 }
 
 func TestQuickSortPlain(t *testing.T) {
@@ -79,16 +70,20 @@ func TestMergeSort(t *testing.T) {
 	GoTestSortFunc(t, sort.MergeSort)
 }
 
-func TestHeapSort(t *testing.T) {
-	GoTestSortFunc(t, sort.HeapSort)
-}
-
 func TestBucketSort(t *testing.T) {
 	GoTestSortFunc(t, sort.BucketSort)
 }
 
-func TestShellSort(t *testing.T) {
-	GoTestSortFunc(t, sort.ShellSort)
+func TestCountingSort(t *testing.T) {
+	GoTestSortFunc(t, sort.CountingSort)
+}
+
+func TestCountingSortShallow(t *testing.T) {
+	GoTestSortFunc(t, sort.CountingSortShallow)
+}
+
+func TestRadixSort(t *testing.T) {
+	GoTestSortFunc(t, sort.RadixSort)
 }
 
 func TestTournamentSort(t *testing.T) {

@@ -25,33 +25,24 @@ func BenchmarkBuiltinSort(b *testing.B) {
 	GoBenchmarkSortFunc(b, sort.BuiltinSort)
 }
 
+func BenchmarkBubbleSort(b *testing.B) {
+	GoBenchmarkSortFunc(b, sort.BubbleSort)
+}
+
 func BenchmarkSelectionSort(b *testing.B) {
 	GoBenchmarkSortFunc(b, sort.SelectionSort)
 }
 
-func BenchmarkBubbleSort(b *testing.B) {
-	GoBenchmarkSortFunc(b, sort.BubbleSort)
+func BenchmarkHeapSort(b *testing.B) {
+	GoBenchmarkSortFunc(b, sort.HeapSort)
 }
 
 func BenchmarkInsertionSort(b *testing.B) {
 	GoBenchmarkSortFunc(b, sort.InsertionSort)
 }
 
-func BenchmarkCountingSort(b *testing.B) {
-	GoBenchmarkSortFunc(b, sort.CountingSort)
-}
-
-func BenchmarkCountingSortShallow(b *testing.B) {
-	GoBenchmarkSortFunc(b, sort.CountingSortShallow)
-}
-
-func BenchmarkRadixSort(b *testing.B) {
-	defer func() {
-		if p := recover(); p != nil {
-			b.Log(p)
-		}
-	}()
-	GoBenchmarkSortFunc(b, sort.RadixSort)
+func BenchmarkShellSort(b *testing.B) {
+	GoBenchmarkSortFunc(b, sort.ShellSort)
 }
 
 func BenchmarkQuickSortPlain(b *testing.B) {
@@ -66,16 +57,20 @@ func BenchmarkMergeSort(b *testing.B) {
 	GoBenchmarkSortFunc(b, sort.MergeSort)
 }
 
-func BenchmarkHeapSort(b *testing.B) {
-	GoBenchmarkSortFunc(b, sort.HeapSort)
-}
-
 func BenchmarkBucketSort(b *testing.B) {
 	GoBenchmarkSortFunc(b, sort.BucketSort)
 }
 
-func BenchmarkShellSort(b *testing.B) {
-	GoBenchmarkSortFunc(b, sort.ShellSort)
+func BenchmarkCountingSort(b *testing.B) {
+	GoBenchmarkSortFunc(b, sort.CountingSort)
+}
+
+func BenchmarkCountingSortShallow(b *testing.B) {
+	GoBenchmarkSortFunc(b, sort.CountingSortShallow)
+}
+
+func BenchmarkRadixSort(b *testing.B) {
+	GoBenchmarkSortFunc(b, sort.RadixSort)
 }
 
 func BenchmarkTournamentSort(b *testing.B) {
