@@ -97,7 +97,7 @@ func (alist ArrayList[T]) Min() T {
 	return slices.Min(*alist.values)
 }
 
-func (alist ArrayList[T]) MinAb(a, b int) T {
+func (alist ArrayList[T]) MinInterval(a, b int) T {
 	return slices.Min((*alist.values)[a:b])
 }
 
@@ -105,7 +105,7 @@ func (alist ArrayList[T]) Max() T {
 	return slices.Max(*alist.values)
 }
 
-func (alist ArrayList[T]) MaxAb(a, b int) T {
+func (alist ArrayList[T]) MaxInterval(a, b int) T {
 	return slices.Max((*alist.values)[a:b])
 }
 

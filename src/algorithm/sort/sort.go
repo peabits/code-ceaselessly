@@ -58,11 +58,11 @@ func SelectionSort[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func selectionSort[T cmp.Ordered](list sort.Interface) {
-	selectionSortAb[T](list, 0, list.Len())
+	selectionSortInterval[T](list, 0, list.Len())
 }
 
 // 左闭右开区间 [a, b)
-func selectionSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func selectionSortInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	for i := a; i < b-1; i++ {
 		k := i
 		for j := i + 1; j < b; j++ {
@@ -101,11 +101,11 @@ func BubbleSort[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func bubbleSort[T cmp.Ordered](list sort.Interface) {
-	bubbleSortAb[T](list, 0, list.Len())
+	bubbleSortInterval[T](list, 0, list.Len())
 }
 
 // 左闭右开区间 [a, b)
-func bubbleSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func bubbleSortInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	for i, c := b-1, false; !c && i > a; i-- {
 		c = true
 		for j := a; j < i; j++ {
@@ -144,11 +144,11 @@ func InsertionSort[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func insertionSort[T cmp.Ordered](list sort.Interface) {
-	insertionSortAb[T](list, 0, list.Len())
+	insertionSortInterval[T](list, 0, list.Len())
 }
 
 // 左闭右开区间 [a, b)
-func insertionSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func insertionSortInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	for i, j := a+1, 0; i < b; i++ {
 		for j = i; j > 0 && list.Less(j, j-1); j-- {
 			list.Swap(j, j-1)
@@ -283,11 +283,11 @@ func QuickSortPlain[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func quickSortPlain[T cmp.Ordered](list sort.Interface) {
-	quickSortPlainAb[T](list, 0, list.Len())
+	quickSortPlainInterval[T](list, 0, list.Len())
 }
 
 // 左闭右开区间 [a, b)
-func quickSortPlainAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func quickSortPlainInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	if b-a <= 1 {
 		return
 	}
@@ -303,8 +303,8 @@ func quickSortPlainAb[T cmp.Ordered](list sort.Interface, a, b int) {
 		}
 	}
 	list.Swap(a, l-1)
-	quickSortPlainAb[T](list, a, l-1)
-	quickSortPlainAb[T](list, r+1, b)
+	quickSortPlainInterval[T](list, a, l-1)
+	quickSortPlainInterval[T](list, r+1, b)
 }
 
 /*
@@ -334,13 +334,13 @@ func QuickSortOptimized[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func quickSortOptimized[T cmp.Ordered](list sort.Interface) {
-	quickSortOptimizedAb[T](list, 0, list.Len())
+	quickSortOptimizedInterval[T](list, 0, list.Len())
 }
 
 // 左闭右开区间 [a, b)
-func quickSortOptimizedAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func quickSortOptimizedInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	if b-a <= 3 {
-		insertionSortAb[T](list, a, b)
+		insertionSortInterval[T](list, a, b)
 	} else {
 		pi := a + (b-a)>>1
 		if list.Less(a, b-1) {
@@ -370,8 +370,8 @@ func quickSortOptimizedAb[T cmp.Ordered](list sort.Interface, a, b int) {
 				m++
 			}
 		}
-		quickSortOptimizedAb[T](list, a, l)
-		quickSortOptimizedAb[T](list, r+1, b)
+		quickSortOptimizedInterval[T](list, a, l)
+		quickSortOptimizedInterval[T](list, r+1, b)
 	}
 
 }
@@ -459,11 +459,11 @@ func HeapSort[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func heapSort[T cmp.Ordered](list sort.Interface) {
-	heapSortAb[T](list, 0, list.Len())
+	heapSortInterval[T](list, 0, list.Len())
 }
 
 // 左闭右开区间 [a, b)
-func heapSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func heapSortInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	for i := ((b - a) - 2) >> 1; i >= 0; i-- {
 		maxHeapify[T](list, a+i, b)
 	}
@@ -562,14 +562,13 @@ func ShellSort[T cmp.Ordered](list ArrayList[T]) {
 }
 
 func shellSort[T cmp.Ordered](list sort.Interface) {
-	shellSortAb[T](list, 0, list.Len())
+	shellSortInterval[T](list, 0, list.Len())
 }
 
-func shellSortAb[T cmp.Ordered](list sort.Interface, a, b int) {
+func shellSortInterval[T cmp.Ordered](list sort.Interface, a, b int) {
 	gap := 1
 	for g := gap<<1 + 1; g < b-a; g = g<<1 + 1 {
 		gap = g
-
 	}
 	for ; gap > 0; gap = (gap - 1) >> 1 {
 		for i := a + gap; i < b; i++ {

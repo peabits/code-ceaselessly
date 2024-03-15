@@ -6,6 +6,21 @@ import (
 	"github.com/peabits/code-ceaselessly/algorithm/sort"
 )
 
+var bN int
+var bList sort.ArrayList[int]
+
+func init() {
+	bN = 1000
+	sequence := sort.RandomSequenceRepeatedFrom0[int](bN)
+	bList = sort.NewArrayList(sequence)
+}
+
+func GoBenchmarkSortFunc(b *testing.B, sortFunc func(list sort.ArrayList[int])) {
+	for i := 0; i < b.N; i++ {
+		sortFunc(bList)
+	}
+}
+
 func BenchmarkBuiltinSort(b *testing.B) {
 	GoBenchmarkSortFunc(b, sort.BuiltinSort)
 }
