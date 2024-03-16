@@ -9,8 +9,8 @@ func LongestCommonSubsequenceProblemDP(s1, s2 string) int {
 		dp[i] = make([]int, len(s2)+1)
 	}
 	for i := len(s1) - 1; i >= 0; i-- {
-		for j := len(s2) - 1; j >= 0; j-- {
-			if s1[i] == s2[j] { // 状态转移
+		for j := len(s2) - 1; j >= 0; j-- { // 状态转移
+			if s1[i] == s2[j] {
 				dp[i][j] = dp[i+1][j+1] + 1
 			} else {
 				dp[i][j] = max(dp[i+1][j], dp[i][j+1]) // 即：max(dp[i+1][j], dp[i][j+1], dp[i+1][j+1]), 其中 dp[i+1][j+1] 最小，故省去
